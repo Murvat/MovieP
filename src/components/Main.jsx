@@ -1,36 +1,46 @@
-import React from "react";
+import React, {useState, useEffect}from "react";
 import { Movies } from "./Movies";
-import { Preloader } from "./Preloadergit";
+import { Preloader } from "./Preloader";
 import { Search } from "./Search";
 
-class Main extends React.Component {
-    state = {
-      movies: [],
-    };
+const Main=() => {
   
-    componentDidMount() {
+  const [movies, setMovies]=useState([])
+  const [loading, setLoading] = useState(true);
+
+  const searchMovies = (str, type='all') => {
+    setLoading(true);
+    fetch(
+      `http://www.omdbapi.com/?apikey=113b3d52&s=${str}${
+        type !== 'all' ? `&type=${type}` : '' }`)
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        setMovies(data.Search)
+      })
+  };
+ 
+    useEffect (() => {
       fetch("http://www.omdbapi.com/?apikey=113b3d52&s=matrix")
-        .then((response) => response.json())
-        .then((data) => this.setState({ movies: data.Search }));
-    }
+      .then((response) => response.json())
+      .then((data) => {setMovies(data.Search);
+                       setLoading(false)} )
+      .catch((err) => {
+        console.error(err);
+       setLoading({loading: false})
+      });
+
+    }, [])
   
-    searchMovies = (str, type='all') => {
-      fetch(`http://www.omdbapi.com/?apikey=113b3d52&s=${str}${type !== 'all' ? `&type=${type}` : '' }`)
-        .then((response) => response.json())
-        .then((data) => this.setState({ movies: data.Search }));
-    };
   
-    render() {
-      const { movies } = this.state;
       return (
         <main className="container content">
-          <Search searchMovies={this.searchMovies} />
+          <Search searchMovies={searchMovies} />
+          {movies && movies.length ? <Movies movies={movies} /> :<Preloader/>}
   
-          {movies.length ? <Movies movies={movies} /> : <Preloader />}
         </main>
       );
     }
-  }
   
 
 export { Main };
