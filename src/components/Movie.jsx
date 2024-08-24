@@ -7,18 +7,18 @@ function Movie(props) {
     Poster: poster,
   } = props;
   /////
-  return <div id={id} ClassName="card">
-    <div ClassName="card-image waves-effect waves-block waves-light">
+  return <div id={id} className="card">
+    <div className="card-image waves-effect waves-block waves-light">
       {
         poster === 'N/A' ?
-          <img ClassName="activator" src={'https://placehold.co/300x400?text=${title}'} />
+          <img className="activator" src={'https://placehold.co/300x400?text=${title}'} />
           :
-          <img ClassName="activator" src={poster} />
+          <img className="activator" src={poster} />
 
       }
     </div>
-    <div ClassName="card-content">
-      <span ClassName="card-title activator grey-text text-darken-4">{title}</span>
+    <div className="card-content">
+      <span className="card-title activator grey-text text-darken-4">{title}</span>
       <p>{year}<span>{type}</span></p>
     </div>
   </div>
