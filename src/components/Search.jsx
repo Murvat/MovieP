@@ -10,6 +10,7 @@ const Search = (props) => {
   const [type, setType] = useState('all');
 
 
+
   const handleFilter = (event) => {
     setType(event.target.dataset.type);
     searchMovies(search, event.target.dataset.type);

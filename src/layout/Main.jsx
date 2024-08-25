@@ -36,7 +36,7 @@ const Main = () => {
       });
 
   }, [])
-
+  console.log('a')
 
   return (
 
